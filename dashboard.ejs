@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study | Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f1a; }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .accent-gradient { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+    </style>
+</head>
+<body>
+
+<main class="flex-1 bg-[#0b0f1a] min-h-screen p-8 text-white">
+    
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <div>
+            <h1 class="text-3xl font-bold">Systems Ready, <span class="text-indigo-500"><%= user.email.split('@')[0] %></span></h1>
+            <p class="text-slate-500">Your AI-optimized learning path is updated.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <a href="/analytics" class="flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-5 py-2.5 rounded-2xl text-sm font-semibold text-indigo-400 hover:bg-indigo-500 hover:text-white transition shadow-lg shadow-indigo-500/5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Full Analysis
+            </a>
+            
+            <a href="/logout" class="bg-red-500/10 border border-red-500/20 px-5 py-2.5 rounded-2xl text-sm text-red-400 hover:bg-red-500 hover:text-white transition">Logout</a>
+
+            <div class="glass-card px-5 py-2.5 rounded-2xl flex items-center gap-3">
+                <div class="text-right border-r border-slate-700 pr-3">
+                    <p class="text-[10px] uppercase tracking-widest text-slate-500 leading-tight">Mastery</p>
+                    <p class="font-mono text-indigo-400 font-bold leading-tight"><%= stats.mastery %>%</p>
+                </div>
+                <div class="h-8 w-8 accent-gradient rounded-full flex items-center justify-center font-bold text-xs">
+                    <%= user.email[0].toUpperCase() %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="glass-card p-6 rounded-3xl relative overflow-hidden group">
+            <div class="absolute -right-4 -bottom-4 text-6xl opacity-5 group-hover:scale-110 transition">🔥</div>
+            <p class="text-slate-400 text-sm">Current Streak</p>
+            <h2 class="text-4xl font-black mt-2"><%= stats.streak %> Days</h2>
+        </div>
+        <div class="glass-card p-6 rounded-3xl border-b-4 border-indigo-600">
+            <p class="text-slate-400 text-sm">Focus Time</p>
+            <h2 class="text-4xl font-black mt-2"><%= stats.focusTime %></h2>
+        </div>
+        <div class="glass-card p-6 rounded-3xl bg-indigo-600/10 border border-indigo-500/20">
+            <p class="text-indigo-400 text-sm font-bold uppercase tracking-tighter">Next Milestone</p>
+            <h2 class="text-2xl font-bold mt-2">Neural Networks</h2>
+        </div>
+    </div>
+
+    <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+        Priority Recovery Roadmaps
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <% if (recovery) { %>
+            <div class="glass-card border-l-4 border-red-500 p-8 rounded-[2rem] bg-red-500/5">
+                <h4 class="text-xl font-bold text-red-400">Critical Subject: <%= recovery.title %></h4>
+                <p class="text-slate-400 text-sm mt-1 mb-3">Diagnostic reveals a core conceptual gap.</p>
+                <span class="bg-red-500/20 text-red-200 text-xs font-mono px-3 py-1 rounded-full">Score: <%= recovery.score %>%</span>
+            </div>
+        <% } else { %>
+            <div class="glass-card p-8 rounded-[2rem] text-slate-500">No critical subjects found. Keep it up!</div>
+        <% } %> 
+    </div>
+
+    <div class="glass-card p-6 rounded-3xl mb-12 border border-indigo-500/20">
+        <h3 class="text-xl font-bold mb-4 text-indigo-400">✨ Create Custom Task</h3>
+        <form action="/create-task" method="POST" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <input type="text" name="title" placeholder="Task Title" required class="bg-slate-900/50 border border-white/10 rounded-xl px-4 py-2 text-white">
+            <input type="text" name="category" placeholder="Category" required class="bg-slate-900/50 border border-white/10 rounded-xl px-4 py-2 text-white">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-xl transition">Add to Roadmap</button>
+        </form>
+    </div>
+
+    <% if (topPick) { %>
+        <div class="relative group mb-12">
+            <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+            <div class="relative glass-card p-8 rounded-[2.5rem] border border-indigo-500/30 bg-indigo-500/5">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest">AI Suggested Path</span>
+                            <span class="bg-indigo-500 text-white text-[9px] px-2 py-0.5 rounded-full font-bold">OPTIMIZED MATCH</span>
+                        </div>
+                        <h4 class="text-2xl font-bold">Next Masterclass: <%= topPick.title %></h4>
+                        <p class="text-slate-400 text-sm mt-1 max-w-xl">Our algorithm prioritized this topic based on your recent learning velocity and categorical interests.</p>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <p class="text-[10px] text-slate-500 uppercase">AI Pred. Time</p>
+                            <p class="font-bold text-indigo-400"><%= topPick.predictedTime %>m</p>
+                        </div>
+                        <form action="/start-session" method="POST">
+                            <input type="hidden" name="sessionId" value="<%= topPick.id %>">
+                            <button type="submit" class="bg-white text-black px-8 py-3 rounded-2xl font-bold hover:bg-indigo-500 hover:text-white transition shadow-xl whitespace-nowrap">
+                                Accept Path
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+
+    <h3 class="text-xl font-semibold mb-6 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+        Smart Recommendations
+    </h3>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <% sessions.forEach(item => { %>
+            <div class="glass-card p-8 rounded-[2rem] hover:border-indigo-500/50 transition-all duration-300 group">
+                <div class="flex justify-between mb-6">
+                    <span class="px-4 py-1 rounded-full bg-slate-800 text-[10px] font-bold text-slate-400 uppercase tracking-widest"><%= item.category %></span>
+                    <span class="text-indigo-500 font-mono text-sm font-bold">Lvl: <%= item.difficulty_level %>/10</span>
+                </div>
+                <h4 class="text-2xl font-bold mb-3 group-hover:text-indigo-400 transition"><%= item.title %></h4>
+                <p class="text-slate-500 leading-relaxed mb-6"><%= item.description %></p>
+                
+                <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl mb-4">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-slate-500 uppercase tracking-widest">ML Prediction</span>
+                        <span class="text-sm font-bold text-indigo-400">⏳ <%= item.predictedTime %> mins to master</span>
+                    </div>
+                    <form action="/start-session" method="POST">
+                        <input type="hidden" name="sessionId" value="<%= item.id %>">
+                        <button type="submit" class="bg-white text-black px-6 py-2 rounded-xl font-bold hover:bg-indigo-500 hover:text-white transition">Start</button>
+                    </form>
+                </div>
+            </div>
+        <% }) %>
+    </div>
+</main>
+</body>
+</html>
