@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-[#0b0f1a] text-white p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold">Detailed Performance Analytics</h1>
+            <a href="/dashboard" class="text-indigo-400 hover:underline">← Back to Dashboard</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="glass-card p-6 rounded-3xl">
+                <p class="text-slate-400 text-sm">Average Accuracy</p>
+                <h2 class="text-4xl font-black text-indigo-500"><%= Math.round(overview.avg_score || 0) %>%</h2>
+            </div>
+            <div class="glass-card p-6 rounded-3xl">
+                <p class="text-slate-400 text-sm">Total Learning Time</p>
+                <h2 class="text-4xl font-black"><%= overview.total_mins || 0 %> <span class="text-lg">mins</span></h2>
+            </div>
+            <div class="glass-card p-6 rounded-3xl">
+                <p class="text-slate-400 text-sm">Topics Mastered</p>
+                <h2 class="text-4xl font-black text-green-500"><%= overview.completed_tasks %></h2>
+            </div>
+        </div>
+
+        <div class="glass-card rounded-[2.5rem] overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-white/5 text-slate-400 text-sm uppercase">
+                    <tr>
+                        <th class="px-8 py-4">Topic</th>
+                        <th class="px-8 py-4">Category</th>
+                        <th class="px-8 py-4">Score</th>
+                        <th class="px-8 py-4">Time Spent</th>
+                        <th class="px-8 py-4">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    <% history.forEach(item => { %>
+                        <tr class="hover:bg-white/5 transition-colors">
+                            <td class="px-8 py-4 font-semibold"><%= item.title %></td>
+                            <td class="px-8 py-4 text-slate-400"><%= item.category %></td>
+                            <td class="px-8 py-4">
+                                <span class="<%= item.score < 40 ? 'text-red-500' : 'text-indigo-400' %> font-mono font-bold">
+                                    <%= item.score %>%
+                                </span>
+                            </td>
+                            <td class="px-8 py-4"><%= item.time_spent_minutes %>m</td>
+                            <td class="px-8 py-4 text-xs">
+                                <span class="px-3 py-1 rounded-full <%= item.status === 'Completed' ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400' %>">
+                                    <%= item.status %>
+                                </span>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
