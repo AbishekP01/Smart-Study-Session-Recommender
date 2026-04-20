@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    </style>
+</head>
+<body class="bg-[#0b0f1a] text-white min-h-screen flex items-center justify-center p-6">
+    <div class="glass p-10 rounded-[2.5rem] max-w-2xl w-full text-center">
+        <h1 class="text-4xl font-bold mb-4"><%= material.title %></h1>
+        <p class="text-indigo-400 mb-8 uppercase tracking-widest text-sm"><%= material.category %></p>
+        
+        <div class="text-6xl font-mono font-black mb-8 text-indigo-500" id="timer">00:00</div>
+
+        <form action="/complete-session" method="POST" class="space-y-6">
+            <input type="hidden" name="materialId" value="<%= material.id %>">
+            <input type="hidden" name="timeSpent" id="timeSpentInput" value="0">
+            
+            <div>
+                <label class="block text-slate-400 mb-2">How well did you understand this? (Score 1-100)</label>
+                <input type="number" name="score" min="1" max="100" required 
+                       class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 w-32 text-center text-2xl">
+            </div>
+
+            <button type="submit" class="w-full py-4 bg-indigo-600 hover:bg-indigo-500 rounded-2xl font-bold transition-all shadow-lg shadow-indigo-500/20">
+                Finish & Update AI Roadmap
+            </button>
+        </form>
+    </div>
+
+    <script>
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            let mins = Math.floor(seconds / 60);
+            let secs = seconds % 60;
+            document.getElementById('timer').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            document.getElementById('timeSpentInput').value = seconds;
+        }, 1000);
+    </script>
+</body>
+</html>
