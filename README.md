@@ -1,3 +1,5 @@
+**#Smart Study Session Recommender**
+
 **🎓 Smart Study | AI-Powered Learning Path Recommender**
 Smart Study is a sophisticated EdTech platform that transforms static learning into a dynamic, personalized experience. By utilizing Machine Learning (ML), the system analyzes user performance in real-time to predict study durations and curate optimized learning roadmaps.
 
